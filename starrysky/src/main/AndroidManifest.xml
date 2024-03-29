@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.lzx.starrysky">
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -32,7 +33,8 @@
             android:directBootAware="false"
             android:enabled="true"
             android:exported="false"
-            android:foregroundServiceType="mediaPlayback" />
+            android:foregroundServiceType="mediaPlayback"
+            tools:replace="android:enabled" />
 
         <!--修复缓存中把网断了的崩溃-->
         <service

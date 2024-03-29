@@ -4,6 +4,17 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'maven-publish'
 //apply plugin: 'com.novoda.bintray-release'
 
+afterEvaluate {
+    android.libraryVariants.each { variant ->
+        publishing.publications.create(variant.name, MavenPublication) {
+            from components.findByName(variant.name)
+            groupId = 'com.RokingYang'//自定义
+            artifactId = 'starrySky'//自定义
+            version = '2.6.8'//自定义
+        }
+    }
+}
+
 android {
     compileSdk 34
 
@@ -58,13 +69,3 @@ dependencies {
 repositories {
     mavenCentral()
 }
-//afterEvaluate {
-//    android.libraryVariants.each { variant ->
-//        publishing.publications.create(variant.name, MavenPublication) {
-//            from components.named(variant.name)
-//            groupId = 'com.github.RokingYang'//自定义
-//            artifactId = 'lib'//自定义
-//            version = '2.6.8'//自定义
-//        }
-//    }
-//}
