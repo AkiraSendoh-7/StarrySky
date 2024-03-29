@@ -58,13 +58,13 @@ dependencies {
 repositories {
     mavenCentral()
 }
-afterEvaluate {
-    android.libraryVariants.each { variant ->
-        publishing.publications.create(variant.name, MavenPublication) {
-            from components.named(variant.name)
-            groupId = 'com.github.RokingYang'//自定义
-            artifactId = 'lib'//自定义
-            version = '2.6.8'//自定义
-        }
-    }
-}
+//afterEvaluate {
+//    android.libraryVariants.each { variant ->
+//        publishing.publications.create(variant.name, MavenPublication) {
+//            from components.named(variant.name)
+//            groupId = 'com.github.RokingYang'//自定义
+//            artifactId = 'lib'//自定义
+//            version = '2.6.8'//自定义
+//        }
+//    }
+//}
