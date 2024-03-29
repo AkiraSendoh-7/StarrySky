@@ -45,21 +45,20 @@ class DynamicDetailActivity : AppCompatActivity() {
         rotationAnim?.interpolator = LinearInterpolator()
         rotationAnim?.duration = 20000
         rotationAnim?.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
-                super.onAnimationEnd(animation)
+            override fun onAnimationEnd(animation: Animator) {
                 rotationAnim?.start()
             }
         })
         rotationAnim?.start()
 
-        StarrySky.with().playbackState().observe(this, {
+        StarrySky.with().playbackState().observe(this) {
             if (it.stage == PlaybackStage.IDLE && !it.isStop) {
                 //重播
                 StarrySky.with()
                     .skipMediaQueue(true)
                     .playMusicByInfo(songInfo)
             }
-        })
+        }
         StarrySky.with().setOnPlayProgressListener(object : OnPlayProgressListener {
             @SuppressLint("SetTextI18n")
             override fun onPlayProgress(currPos: Long, duration: Long) {

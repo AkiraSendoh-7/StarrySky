@@ -87,7 +87,7 @@ object NotificationUtils {
 
 
     fun createNoCrashNotification(context: Context): Notification {
-        val notifyBuilder = if (Build.VERSION.SDK_INT >= 26) {
+        val notifyBuilder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val manager = context.getSystemService(Service.NOTIFICATION_SERVICE) as NotificationManager
             createNotificationChannel(context, manager)
             val builder = NotificationCompat.Builder(context, CHANNEL_ID)
@@ -101,7 +101,6 @@ object NotificationUtils {
         return notifyBuilder
             .setContentTitle("防止崩溃notification")
             .setSmallIcon(R.drawable.ic_notification).build()
-
     }
 }
 

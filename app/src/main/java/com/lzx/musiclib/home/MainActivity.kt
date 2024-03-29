@@ -45,8 +45,7 @@ class MainActivity : AppCompatActivity() {
         rotationAnim?.interpolator = LinearInterpolator()
         rotationAnim?.duration = 20000
         rotationAnim?.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
-                super.onAnimationEnd(animation)
+            override fun onAnimationEnd(animation: Animator) {
                 rotationAnim?.start()
             }
         })
