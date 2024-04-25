@@ -31,9 +31,9 @@ import com.lzx.starrysky.service.MusicService
 import com.lzx.starrysky.utils.getPendingIntent
 import com.lzx.starrysky.utils.getTargetClass
 
-class SystemNotification(
+class SystemNotification constructor(
     val context: Context,
-    private var config: NotificationConfig = NotificationConfig.Builder().build()
+    var config: NotificationConfig = NotificationConfig.Builder().build()
 ) : BroadcastReceiver(), INotification {
 
 
@@ -130,11 +130,7 @@ class SystemNotification(
                 filter.addAction(ACTION_PAUSE)
                 filter.addAction(ACTION_PLAY)
                 filter.addAction(ACTION_PREV)
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                    context.registerReceiver(this, filter, Context.RECEIVER_NOT_EXPORTED)
-                }else{
-                    context.registerReceiver(this, filter)
-                }
+                context.registerReceiver(this, filter)
                 (context as MusicService).customStartForeground(INotification.NOTIFICATION_ID, notification)
                 mStarted = true
             }

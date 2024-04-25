@@ -10,7 +10,6 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.content.pm.ServiceInfo
 import android.media.AudioManager
 import android.os.Build
 import android.os.IBinder
@@ -53,13 +52,28 @@ class MusicService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent != null) {
-            this.mustShowNotification =
-                intent.getBooleanExtra("flag_must_to_show_notification", false)
+            this.mustShowNotification = intent.getBooleanExtra("flag_must_to_show_notification", false)
         } else {
             this.mustShowNotification = false
         }
         initPlayerService()
         return START_STICKY
+    }
+
+    /**
+     * 自定义启动前台服务
+     * If the app targeting API is
+     * {@link android.os.Build.VERSION_CODES#S} or later, and the service is restricted from
+     * becoming foreground service due to background restriction.
+     * {@link android.app.service#startForeground}
+     *
+     */
+    fun customStartForeground(id: Int, notification: Notification) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && binder?.isStartForegroundByWorkManager() == true) {
+            startForegroundByWorkManager(id)
+        } else {
+            startForeground(id, notification)
+        }
     }
 
     /**
@@ -73,21 +87,6 @@ class MusicService : Service() {
         WorkManager
             .getInstance(this)
             .enqueue(uploadWorkRequest)
-    }
-
-    /**
-     * 自定义启动前台服务
-     * If the app targeting API is
-     * {@link android.os.Build.VERSION_CODES#S} or later, and the service is restricted from
-     * becoming foreground service due to background restriction.
-     * {@link android.app.service#startForeground}
-     */
-    fun customStartForeground(id: Int, notification: Notification) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && binder?.isStartForegroundByWorkManager() == true) {
-            startForegroundByWorkManager(id)
-        } else {
-            startForeground(id, notification)
-        }
     }
 
 
@@ -185,14 +184,12 @@ class MusicService : Service() {
             when (intent?.action) {
                 BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED -> {
                     StarrySky.log("蓝牙耳机插拔状态改变")
-                    val state =
-                        bluetoothAdapter?.getProfileConnectionState(BluetoothProfile.HEADSET)
+                    val state = bluetoothAdapter?.getProfileConnectionState(BluetoothProfile.HEADSET)
                     if (BluetoothProfile.STATE_DISCONNECTED == state && isPlaying) {
                         //蓝牙耳机断开连接 同时当前音乐正在播放 则将其暂停
                         binder?.player?.pause()
                     }
                 }
-
                 AudioManager.ACTION_AUDIO_BECOMING_NOISY -> {
                     StarrySky.log("有线耳机插拔状态改变")
                     if (isPlaying) {
@@ -214,8 +211,7 @@ class MusicService : Service() {
     }
 
     // 后台任务实例
-    class UploadWorker(appContext: Context, workerParams: WorkerParameters) :
-        Worker(appContext, workerParams) {
+    class UploadWorker(appContext: Context, workerParams: WorkerParameters) : Worker(appContext, workerParams) {
         override fun doWork(): Result {
             val id = inputData.getInt("id", 1000)
             kotlin.runCatching { setForegroundAsync(getForegroundInfo(id)) }
@@ -232,14 +228,8 @@ class MusicService : Service() {
         }
 
         private fun getForegroundInfo(id: Int): ForegroundInfo {
-            val notification: Notification =
-                NotificationUtils.createNoCrashNotification(applicationContext)
-            val foregroundInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                ForegroundInfo(id, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
-            } else {
-                ForegroundInfo(id, notification)
-            }
-            return foregroundInfo
+            val notification: Notification = NotificationUtils.createNoCrashNotification(applicationContext)
+            return ForegroundInfo(id, notification)
         }
     }
 }
