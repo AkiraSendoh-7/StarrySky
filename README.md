@@ -7,6 +7,8 @@
 <a href="art/logo.jpg"><img src="art/logo.jpg" /></a>
 <a href="art/a4074094959_10.jpg"><img src="art/a4074094959_10.jpg"/></a>
 
+打包有问题，先用着v2.6.7或者用源码，暂时没心情维护，大家可自己修改，很简单的。
+
 # StarrySky
 
 `StarrySky` `MusicLibrary` `Music` `音频集成` 
