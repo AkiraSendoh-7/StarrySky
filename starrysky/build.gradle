@@ -31,9 +31,7 @@ android {
         abortOnError false
     }
 
-    androidExtensions {
-        experimental = true
-    }
+
 
     kotlinOptions {
         jvmTarget = "1.8"
