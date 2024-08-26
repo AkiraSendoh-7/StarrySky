@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <application android:networkSecurityConfig="@xml/network_security_config">
 
@@ -21,7 +21,7 @@
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="mediaPlayback"
-            tools:ignore="ExportedService,ForegroundServicePermission"
+            tools:ignore="ExportedService"
             tools:node="merge" />
 
         <!--修复缓存中把网断了的崩溃-->
