@@ -13,8 +13,8 @@ android {
         minSdk 21
         targetSdkVersion 34
         targetSdk 34
-        versionCode 2699
-        versionName "2.6.9.9"
+        versionCode 270
+        versionName "2.7.0"
 
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
@@ -72,7 +72,7 @@ afterEvaluate {
 
                 groupId = 'com.github.AkiraSendoh-7'
                 artifactId = 'StarrySky'
-                version = '2.6.9.9'
+                version = '2.7.0'
             }
             debug(MavenPublication) {
                 // The following applies a component to this publication
@@ -82,7 +82,7 @@ afterEvaluate {
 
                 groupId = 'com.github.AkiraSendoh-7'
                 artifactId = 'StarrySky'
-                version = '2.6.9.9'
+                version = '2.7.0'
             }
         }
     }

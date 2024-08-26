@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
 import android.media.AudioManager
 import android.os.Build
 import android.os.IBinder
@@ -72,7 +73,8 @@ class MusicService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && binder?.isStartForegroundByWorkManager() == true) {
             startForegroundByWorkManager(id)
         } else {
-            startForeground(id, notification)
+            startForeground(id, notification,
+                FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
         }
     }
 
@@ -168,7 +170,7 @@ class MusicService : Service() {
             if (!registered) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     context.registerReceiver(this, intentFilter, Context.RECEIVER_EXPORTED)
-                }else{
+                } else {
                     context.registerReceiver(this, intentFilter)
                 }
                 registered = true
@@ -194,6 +196,7 @@ class MusicService : Service() {
                         binder?.player?.pause()
                     }
                 }
+
                 AudioManager.ACTION_AUDIO_BECOMING_NOISY -> {
                     StarrySky.log("有线耳机插拔状态改变")
                     if (isPlaying) {
