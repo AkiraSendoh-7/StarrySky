@@ -5,8 +5,9 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.view.animation.LinearInterpolator
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import com.gcssloop.widget.RCImageView
+
 import com.lzx.musiclib.R
 import com.lzx.musiclib.adapter.addItem
 import com.lzx.musiclib.adapter.itemClicked
@@ -45,7 +46,7 @@ class MainActivity : AppCompatActivity() {
         rotationAnim?.interpolator = LinearInterpolator()
         rotationAnim?.duration = 20000
         rotationAnim?.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 super.onAnimationEnd(animation)
                 rotationAnim?.start()
             }
@@ -107,7 +108,7 @@ class MainActivity : AppCompatActivity() {
             adapter {
                 addItem(R.layout.item_home_music) {
                     bindViewHolder { info, position, holder ->
-                        val icon = holder.findViewById<RCImageView>(R.id.cover)
+                        val icon = holder.findViewById<ImageView>(R.id.cover)
                         icon.loadImage(info?.songCover)
                         setText(R.id.title to info?.songName, R.id.desc to info?.songName)
                         itemClicked {

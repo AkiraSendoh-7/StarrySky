@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <com.gcssloop.widget.RCImageView
+    <ImageView
         android:id="@+id/userHeader"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_marginLeft="13dp"
         android:layout_marginTop="13dp"
         android:layout_marginRight="13dp"
-        app:round_as_circle="true" />
+      />
 
     <TextView
         android:id="@+id/nickname"
@@ -51,7 +51,7 @@
         android:layout_marginLeft="13dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="100dp"
-        app:round_corner="12dp" />
+      />
 
     <View
         android:layout_width="match_parent"

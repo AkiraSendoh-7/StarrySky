@@ -4,11 +4,12 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 31
+    namespace "com.lzx.musiclib"
+    compileSdkVersion 34
     defaultConfig {
         applicationId "com.lzx.starrysky"
-        minSdkVersion 16
-        targetSdkVersion 31
+        minSdkVersion 21
+        targetSdkVersion 34
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -56,7 +57,7 @@ android {
         implementation 'com.qw:soulpermission:1.3.0'
         implementation 'com.danikula:videocache:2.7.1'
         implementation 'com.bigkoo:convenientbanner:2.1.5'
-        implementation 'com.gcssloop.widget:rclayout:1.8.1'
+
         implementation 'com.mikhaellopez:circularimageview:4.2.0'
         implementation 'com.noober.background:core:1.6.5'
         implementation 'com.afollestad.material-dialogs:core:3.3.0'

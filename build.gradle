@@ -3,11 +3,11 @@
 buildscript {
 
     ext {
-        kotlin_version = '1.4.10'
+        kotlin_version = '1.7.0'
     }
     repositories {
-        jcenter()
         google()
+        mavenCentral()
 //        maven {
 //            url 'https://maven.google.com/'
 //            name 'Google'
@@ -15,23 +15,27 @@ buildscript {
 
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.android.tools.build:gradle:8.5.2'
 //        classpath 'com.novoda:bintray-release:0.9.1'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.10"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.0"
+
     }
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
+        mavenCentral()
         maven { url "https://jitpack.io" }
 //        maven { url "https://dl.bintray.com/lizixian/StarrySky/" }
 //        maven {
 //            url 'https://maven.google.com/'
 //            name 'Google'
 //        }
-        maven { url "http://lib.gcssloop.com:8081/repository/gcssloop-central/" }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        maven { url 'https://maven.aliyun.com/repository/central' }
+        maven { url 'https://maven.aliyun.com/repository/jcenter' }
+
     }
     tasks.withType(JavaCompile) {    //设置全局编码
         options.encoding = "UTF-8"
