@@ -1,17 +1,18 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 //apply plugin: 'com.novoda.bintray-release'
 
 android {
     namespace "com.lzx.starrysky"
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 33
-        versionCode 263
-        versionName "2.6.3"
+        targetSdkVersion 34
+        versionCode 2697
+        versionName "2.6.9.7"
 
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_8
@@ -55,4 +56,30 @@ dependencies {
 }
 repositories {
     mavenCentral()
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                // The following applies a component to this publication
+                // which results in publishing an app bundle.
+                from components.release
+
+                groupId = 'com.github.AkiraSendoh-7'
+                artifactId = 'StarrySky'
+                version = '2.6.9.7'
+            }
+            debug(MavenPublication) {
+                // The following applies a component to this publication
+                // which results in publishing APKs in a ZIP file.
+                from components.debug
+
+
+                groupId = 'com.github.AkiraSendoh-7'
+                artifactId = 'StarrySky'
+                version = '2.6.9.7'
+            }
+        }
+    }
 }
