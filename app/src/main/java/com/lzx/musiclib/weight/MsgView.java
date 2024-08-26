@@ -60,7 +60,6 @@ public class MsgView extends AppCompatTextView {
             super.onMeasure(measureSpec, measureSpec);
             return;
         }
-
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
