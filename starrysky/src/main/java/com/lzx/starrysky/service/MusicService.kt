@@ -1,6 +1,8 @@
 package com.lzx.starrysky.service
 
+import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Notification
 import android.app.Service
 import android.bluetooth.BluetoothAdapter
@@ -10,10 +12,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
 import android.media.AudioManager
 import android.os.Build
 import android.os.IBinder
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.work.ForegroundInfo
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.OutOfQuotaPolicy
@@ -40,6 +45,7 @@ class MusicService : Service() {
     private var isPauseByTimedOff = true
     private var timedOffFinishCurrSong = false
     private var mustShowNotification = false
+
 
     override fun onCreate() {
         super.onCreate()
@@ -73,8 +79,12 @@ class MusicService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && binder?.isStartForegroundByWorkManager() == true) {
             startForegroundByWorkManager(id)
         } else {
-            startForeground(id, notification,
-                FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startForeground(id, notification,
+                    FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
+            } else {
+                startForeground(id, notification)
+            }
         }
     }
 
@@ -164,6 +174,7 @@ class MusicService : Service() {
             intentFilter?.addAction(BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED) //蓝牙耳机连接变化
         }
 
+
         private var registered = false
 
         fun register() {
@@ -190,10 +201,15 @@ class MusicService : Service() {
             when (intent?.action) {
                 BluetoothHeadset.ACTION_CONNECTION_STATE_CHANGED -> {
                     StarrySky.log("蓝牙耳机插拔状态改变")
-                    val state = bluetoothAdapter?.getProfileConnectionState(BluetoothProfile.HEADSET)
-                    if (BluetoothProfile.STATE_DISCONNECTED == state && isPlaying) {
-                        //蓝牙耳机断开连接 同时当前音乐正在播放 则将其暂停
-                        binder?.player?.pause()
+                    if (context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.BLUETOOTH_CONNECT) } == PackageManager.PERMISSION_GRANTED) {
+                        val state = bluetoothAdapter?.getProfileConnectionState(BluetoothProfile.HEADSET)
+                        if (BluetoothProfile.STATE_DISCONNECTED == state && isPlaying) {
+                            //蓝牙耳机断开连接 同时当前音乐正在播放 则将其暂停
+                            binder?.player?.pause()
+                        }
+                    } else {
+                        // 请求BLUETOOTH_CONNECT权限
+                        requestBluetoothConnectPermission()
                     }
                 }
 
@@ -204,6 +220,13 @@ class MusicService : Service() {
                         binder?.player?.pause()
                     }
                 }
+            }
+        }
+
+        private fun requestBluetoothConnectPermission() {
+            // 构造权限请求代码，然后调用ActivityCompat.requestPermissions()
+            if (context is Activity) {
+                ActivityCompat.requestPermissions(context, arrayOf(Manifest.permission.BLUETOOTH_CONNECT), 100)
             }
         }
     }

@@ -8,13 +8,15 @@ import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
 
+import androidx.appcompat.widget.AppCompatTextView;
+
 import com.lzx.musiclib.R;
 
 
 /**
  * 用于需要圆角矩形框背景的TextView的情况,减少直接使用TextView时引入的shape资源文件
  */
-public class MsgView extends androidx.appcompat.widget.AppCompatTextView {
+public class MsgView extends AppCompatTextView {
     private Context context;
     private GradientDrawable mGdBackground = new GradientDrawable();
     private int backgroundColor;
