@@ -5,12 +5,14 @@ apply plugin: 'kotlin-android-extensions'
 //apply plugin: 'com.novoda.bintray-release'
 
 android {
-    namespace "com.lzx.starrysky"
-    compileSdkVersion 34
 
+    compileSdkVersion 34
+    compileSdk 34
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 19
+        minSdk 19
         targetSdkVersion 34
+        targetSdk 34
         versionCode 2697
         versionName "2.6.9.7"
 
@@ -33,10 +35,11 @@ android {
     }
 
 
-
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    namespace "com.lzx.starrysky"
 }
 
 dependencies {
