@@ -166,7 +166,11 @@ class MusicService : Service() {
 
         fun register() {
             if (!registered) {
-                context.registerReceiver(this, intentFilter)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    context.registerReceiver(this, intentFilter, Context.RECEIVER_EXPORTED)
+                }else{
+                    context.registerReceiver(this, intentFilter)
+                }
                 registered = true
             }
         }

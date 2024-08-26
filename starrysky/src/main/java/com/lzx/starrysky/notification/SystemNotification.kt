@@ -130,7 +130,11 @@ class SystemNotification constructor(
                 filter.addAction(ACTION_PAUSE)
                 filter.addAction(ACTION_PLAY)
                 filter.addAction(ACTION_PREV)
-                context.registerReceiver(this, filter)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    context.registerReceiver(this, filter, Context.RECEIVER_EXPORTED)
+                } else {
+                    context.registerReceiver(this, filter)
+                }
                 (context as MusicService).customStartForeground(INotification.NOTIFICATION_ID, notification)
                 mStarted = true
             }
